@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Wine } from '../model/wine';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class WineService {
 
-  constructor() { }
-  
-  getWines(): Wine[] {
-    return [
-      { id: 1, name: 'Douro Reserva', region: 'Douro', year: 2020 },
-      { id: 2, name: 'Alentejo Red', region: 'Alentejo', year: 2019 },
-      { id: 3, name: 'Vinho Verde', region: 'Minho', year: 2021 }
-    ];
+  constructor(private http: HttpClient) { }
+
+  getWines(): Observable<Wine[]> {
+    return this.http.get<Wine[]>('/api/wines');
+  }
+
+  getWine(id: number): Observable<Wine> {
+    return this.http.get<Wine>(`/api/wines/${id}`);
   }
 }

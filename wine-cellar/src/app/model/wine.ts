@@ -1,6 +1,12 @@
-export interface Wine {
-  id: number;
-  name: string;
-  region: string;
-  year: number;
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class Wine {
+  
+  id:any;
+  name: any;
+  region: any;
+  year: any;
 }

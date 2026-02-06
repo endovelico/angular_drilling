@@ -1,1 +1,5 @@
-<p>wine-details works!</p>
+<div *ngIf="wine">
+  <h2>{{ wine.name }}</h2>
+  <p>Region: {{ wine.region }}</p>
+  <p>Year: {{ wine.year }}</p>
+</div>
