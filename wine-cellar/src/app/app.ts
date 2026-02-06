@@ -10,5 +10,6 @@ import { WineList } from "./wine-list/wine-list";
   styleUrl: './app.css'
 })
 export class App {
+  
   protected readonly title = signal('wine-cellar');
 }
