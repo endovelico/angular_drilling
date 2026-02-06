@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Wine } from '../service/wine';
 import { ActivatedRoute } from '@angular/router';
 import { WineService } from '../service/wine.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-wine-details',
@@ -11,13 +12,13 @@ import { WineService } from '../service/wine.service';
 })
 export class WineDetails implements OnInit {
 
-  wine!:Wine;
+  wine!: Observable<Wine>; 
 
   constructor(private route: ActivatedRoute, private wineService:WineService) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get("id"));
     
-    this.wine=this.wineService.getWine(id);
+    this.wine = this.wineService.getWine(id);
   }
 }

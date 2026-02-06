@@ -3,6 +3,7 @@ import { Wine } from '../model/wine';
 import { CommonModule } from '@angular/common';
 import { WineService } from '../service/wine.service';
 import { RouterModule } from '@angular/router'; 
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-wine-list',
@@ -14,11 +15,11 @@ import { RouterModule } from '@angular/router';
 })
 export class WineList {
 
-  wines: Wine[] = [];
+  wines$!: Observable<Wine[]>;
 
   constructor(private wineService: WineService){}
 
     ngOnInit(): void {
-    this.wines = this.wineService.getWines();
+    this.wines$ = this.wineService.getWines();
   }
 }

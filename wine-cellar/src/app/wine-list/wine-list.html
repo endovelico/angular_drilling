@@ -1,6 +1,6 @@
 <ul> These are the greatest wines!
-  <li *ngFor="let wine of wines">
-    <a [routerLink]="['/wine', 'wine.id']">
+  <li *ngFor="let wine of wines$ | async ">
+    <a [routerLink]="['/wine', wine.id]">
     {{ wine.name }} ({{ wine.region }}, {{ wine.year }})
     </a>
   </li>
