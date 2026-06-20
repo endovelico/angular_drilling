@@ -1,30 +1,38 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WineList } from './wine-list';
-
-describe('WineListComponent', () => {
+import { WineService } from '../service/wine.service';
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Component } from '@angular/core';
+@Component({selector: 'app-dummy', template: ''})
+class DummyComponent {}
+describe('WineListComponent (async)', () => {
   let component: WineList;
   let fixture: ComponentFixture<WineList>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [WineList], // standalone component goes here
+  let mockService: any;
+  beforeEach(waitForAsync(() => {
+    mockService = {
+      getWines: jasmine.createSpy().and.returnValue(of([
+        { id: 1, name: 'Douro Reserva', region: 'Douro', year: 2020 },
+        { id: 2, name: 'Alentejo Red', region: 'Alentejo', year: 2019 }
+      ]))
+    };
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([])],
+      declarations: [WineList, DummyComponent],
+      providers: [
+        { provide: WineService, useValue: mockService }
+      ]
     }).compileComponents();
-
+  }));
+  beforeEach(() => {
     fixture = TestBed.createComponent(WineList);
     component = fixture.componentInstance;
-
-    // ✅ Initialize wines BEFORE detectChanges to avoid ExpressionChangedAfterItHasBeenCheckedError
-    component.wines = [
-      { id: 1, name: 'Douro Reserva', region: 'Douro', year: 2020 },
-      { id: 2, name: 'Alentejo Red', region: 'Alentejo', year: 2019 },
-    ];
-
-    fixture.detectChanges(); // first change detection sees the correct values
+    fixture.detectChanges();
   });
-
-  it('should display a list of wines', () => {
+  it('should display wines from service', () => {
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-
     expect(compiled.textContent).toContain('Douro Reserva');
     expect(compiled.textContent).toContain('Alentejo Red');
   });
